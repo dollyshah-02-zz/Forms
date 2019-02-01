@@ -1,0 +1,17 @@
+.forms{
+    width:30%;
+    margin-left: 10px;
+}
+.button{
+    margin-top: 10px;
+    margin-left: 4px;
+}
+.has-success{
+    border-color: green;
+}
+.has-danger{
+    border-color: red
+}
+.required{
+    color: red;
+}
