@@ -1,9 +1,9 @@
-<!-- <pre>Dirty? {{ userForm.controls.email.dirty }}</pre>
-<pre>Pristine? {{ userForm.controls.email.pristine }}</pre>
-<pre>Touched? {{ userForm.controls.email.touched }}</pre>
-<pre>Valid? {{ userForm.controls.email.valid }}</pre>-->
+<!-- <pre>Dirty? {{ userForm.controls.email?.dirty }}</pre>
+<pre>Pristine? {{ userForm.controls.email?.pristine }}</pre>
+<pre>Touched? {{ userForm.controls.email?.touched }}</pre>
+<pre>Valid? {{ userForm.controls.email?.valid }}</pre> -->
 <!-- <pre>status? {{ userForm.controls.email.valueChanges }}</pre>  -->
-<form novalidate class="forms" [formGroup]="userForm">
+<!-- <form novalidate class="forms" [formGroup]="userForm" (ngSubmit)="submitData()">
   <fieldset formGroupName="name">
     <div class="form-group">
       <label>First Name:</label>
@@ -45,9 +45,10 @@
     }">
   </div>
   <div *ngIf="user.password.errors && (user.password.dirty || user.password.touched)">
-      <p *ngIf="user.password.errors.required">Password is required</p>
-      <p *ngIf="user.password.errors.minlength">Password must be 8 characters long, we need another {{user.password.errors.minlength.requiredLength - user.password.errors.minlength.actualLength}} characters</p>
-    </div>
+    <p *ngIf="user.password.errors.required">Password is required</p>
+    <p *ngIf="user.password.errors.minlength">Password must be 8 characters long, we need another
+      {{user.password.errors.minlength.requiredLength - user.password.errors.minlength.actualLength}} characters</p>
+  </div>
 
   <div class="form-group">
     <label>Language:</label>
@@ -62,7 +63,101 @@
     Language is required!
   </p>
   <div>
-    <button class="btn btn-default button" (click)="submitData()">Submit</button>
+    <button class="btn btn-default button">Submit</button>
     <button class="btn btn-default button">Cancel</button>
   </div>
+  <p>{{userForm.value | json}}</p>
+</form> -->
+<h3>Model Driven Form</h3>
+
+<form novalidate class="forms" [formGroup]="userForm" (ngSubmit)="submitData()">
+  <fieldset formGroupName="name">
+    <div class="form-group">
+      <label>First Name:</label>
+      <input type="text" class="form-control" formControlName="firstName" [ngClass]="{
+        'has-danger': firstName.invalid &&( firstName.dirty || firstName.touched),
+        'has-success': firstName.valid && (firstName.dirty || firstName.touched)
+      }">
+      <p *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="required">
+        First Name is required!
+      </p>
+    </div>
+    <div class="form-group">
+      <label>Last Name:</label>
+      <input type="text" class="form-control" formControlName="lastName" [ngClass]="{
+        'has-danger': lastName.invalid && (lastName.dirty || lastName.touched),
+        'has-success': lastName.valid && (lastName.dirty || lastName.touched)
+      }">
+    </div>
+    <p *ngIf="lastName.errors && (lastName.dirty || lastName.touched)" class="required">
+      Last Name is required!
+    </p>
+  </fieldset>
+  <div class="form-group">
+    <label>Gender:</label>
+    <label class="radio-inline">
+      <input type="radio" name="gender" value="male" formControlName="gender">Male
+    </label>
+    <label class="radio-inline">
+      <input type="radio" name="gender" value="female" formControlName="gender">Female
+    </label>
+  </div>
+  <div *ngIf="gender.invalid && (gender.dirty || gender.touched)" class="required">
+    <p *ngIf="gender.errors.required">Gender is required!</p>
+  </div>
+  <label>Hobbies:</label>
+  <div *ngFor="let hobbie of hobbiesArray" class="checkbox-inline">
+    <input type="checkbox" value="{{hobbie}}" formControlName="hobbies">{{hobbie}}
+  </div>
+  <div *ngIf="hobbies.invalid && (hobbies.dirty || hobbies.touched)" class="required">
+    <p *ngIf="hobbies.errors.required">Hobbies are required!</p>
+  </div>
+  <div class="form-group ">
+    <label>Email:</label>
+    <input type="text" class="form-control" formControlName="email" [ngClass]="{
+      'has-danger': email.invalid && (email.dirty || email.touched),
+      'has-success': email.valid && (email.dirty || email.touched)
+    }">
+  </div>
+  <div *ngIf="email.errors && (email.dirty || email.touched)" class="required">
+    <p *ngIf="email.errors.required">Email is required!</p>
+    <p *ngIf="email.errors.pattern">Enter in proper format</p>
+  </div>
+  <div class="form-group">
+    <label>Password:</label>
+    <input type="password" class="form-control" formControlName="password" [ngClass]="{
+      'has-danger': password.invalid && (password.dirty || password.touched),
+      'has-success': password.valid && (password.dirty || password.touched)
+    }">
+  </div>
+  <div *ngIf="password.errors && (password.dirty || password.touched)" class="required">
+    <p *ngIf="password.errors.required">Password is required</p>
+    <p *ngIf="password.errors.minlength">Password must be 8 characters long, we need another
+      {{password.errors.minlength.requiredLength - password.errors.minlength.actualLength}} characters</p>
+  </div>
+
+  <div class="form-group">
+    <label>Language:</label>
+    <select name="lang" class="form-control" formControlName="language" [ngClass]="{
+      'has-danger': language.invalid && (language.dirty || language.touched),
+      'has-success': language.valid && (language.dirty || language.touched)
+    }">
+      <option value="{{lang}}" *ngFor="let lang of languages">{{lang}}</option>
+    </select>
+  </div>
+  <p *ngIf="language.errors && (language.dirty || language.touched)" class="required">
+    Language is required!
+  </p>
+  <div class="form-group">
+    <label>Contact No: </label>
+    <input type="text" class="form-control" name="no" formControlName="mobileNo" [ngClass]="{
+      'has-danger': mobileNo.invalid && (mobileNo.dirty || mobileNo.touched),
+      'has-success': mobileNo.valid && (mobileNo.dirty || mobileNo.touched)
+    }">
+  </div>
+  <div>
+    <button class="btn btn-default button">Submit</button>
+    <button class="btn btn-default button">Cancel</button>
+  </div>
+  <pre>{{userForm.controls.name.value | json}}</pre>
 </form>

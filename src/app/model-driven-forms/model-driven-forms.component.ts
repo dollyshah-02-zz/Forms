@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { User } from '../user';
+import { element } from '@angular/core/src/render3/instructions';
 
 @Component({
   selector: 'app-model-driven-forms',
@@ -9,12 +10,21 @@ import { User } from '../user';
 })
 export class ModelDrivenFormsComponent implements OnInit {
   userForm: FormGroup;
-  user: User = new User();
+  // user: User = new User();
+  firstName: FormControl;
+  lastName: FormControl;
+  email: FormControl;
+  password: FormControl;
+  language: FormControl;
+  gender: FormControl;
+  hobbies: FormControl;
+  mobileNo:FormControl;
   constructor() { }
 
   ngOnInit() {
     this.createFormControls();
     this.createForm();
+    console.log("hi");
   }
 
   languages: Array<string> = [
@@ -23,42 +33,55 @@ export class ModelDrivenFormsComponent implements OnInit {
     'English',
     'German'
   ];
+  hobbiesArray: Array<string> = [
+    "Dancing",
+    "Singing",
+    "Reading"
+  ]
 
   createForm() {
     this.userForm = new FormGroup(
       {
         name: new FormGroup(
           {
-            firstName: this.user.firstName,
-            lastName: this.user.lastName,
+            firstName: this.firstName,
+            lastName: this.lastName,
           }
         ),
-        email: this.user.email,
-        password: this.user.password,
-        language: this.user.language
+        gender: this.gender,
+        hobbies: this.hobbies,
+        email: this.email,
+        password: this.password,
+        language: this.language,
+        mobileNo:this.mobileNo
       }
     );
   }
 
   createFormControls() {
-    this.user.firstName = new FormControl('', Validators.required);
-    this.user.lastName = new FormControl('', Validators.required);
-    this.user.password = new FormControl('', [
+    this.firstName = new FormControl('', Validators.required);
+    this.lastName = new FormControl('', Validators.required);
+    this.password = new FormControl('', [
       Validators.required,
       Validators.minLength(8),
     ]);
-    this.user.email = new FormControl('', [
+    this.gender = new FormControl('', Validators.required);
+    this.hobbies = new FormControl('', Validators.required);
+    this.email = new FormControl('', [
       Validators.required,
-      Validators.pattern("[^ @]*@[^ @]*")
+      Validators.pattern("[A-Za-z0-9_.]+@[a-zA-Z0-9]+\.(com|org|edu)")
     ]);
-    this.user.language = new FormControl('', Validators.required);
+    this.language = new FormControl('', Validators.required);
+    this.mobileNo=new FormControl('',[
+      Validators.required,
+      Validators.minLength(10)
+    ])
   }
   submitData() {
     if (this.userForm.valid) {
-      console.log(this.user.firstName)
-      console.log("Form is submitted");
+      console.log("Form is submitted", this.userForm.value);
+      console.log(this.gender.hasError);
       this.userForm.reset();
-      console.log(this.userForm.errors)
     }
   }
 
