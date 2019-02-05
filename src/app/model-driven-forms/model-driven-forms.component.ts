@@ -74,7 +74,8 @@ export class ModelDrivenFormsComponent implements OnInit {
     this.language = new FormControl('', Validators.required);
     this.mobileNo=new FormControl('',[
       Validators.required,
-      Validators.minLength(10)
+      Validators.minLength(10),
+      Validators.pattern("[1-9]+")
     ])
   }
   submitData() {

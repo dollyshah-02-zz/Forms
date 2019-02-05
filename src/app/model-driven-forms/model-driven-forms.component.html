@@ -109,7 +109,7 @@
   <div *ngFor="let hobbie of hobbiesArray" class="checkbox-inline">
     <input type="checkbox" value="{{hobbie}}" formControlName="hobbies">{{hobbie}}
   </div>
-  <div *ngIf="hobbies.invalid && (hobbies.dirty || hobbies.touched)" class="required">
+  <div *ngIf="hobbies.errors && (hobbies.dirty || hobbies.touched)" class="required">
     <p *ngIf="hobbies.errors.required">Hobbies are required!</p>
   </div>
   <div class="form-group ">
@@ -145,7 +145,7 @@
       <option value="{{lang}}" *ngFor="let lang of languages">{{lang}}</option>
     </select>
   </div>
-  <p *ngIf="language.errors && (language.dirty || language.touched)" class="required">
+  <p *ngIf="language.errors  && (language.dirty || language.touched)" class="required">
     Language is required!
   </p>
   <div class="form-group">
@@ -155,9 +155,17 @@
       'has-success': mobileNo.valid && (mobileNo.dirty || mobileNo.touched)
     }">
   </div>
+  <div *ngIf="mobileNo.errors && (mobileNo.dirty || mobileNo.touched)" class="required">
+    <div *ngIf="mobileNo.errors.required">Mobile Number is required!</div>
+    <div *ngIf="mobileNo.errors.minlength">Min. 10 digits are required!</div>
+
+  </div>
   <div>
     <button class="btn btn-default button">Submit</button>
     <button class="btn btn-default button">Cancel</button>
   </div>
+
+
+  
   <pre>{{userForm.controls.name.value | json}}</pre>
 </form>

@@ -2,74 +2,121 @@
 
 <form novalidate class="forms" #f="ngForm" (ngSubmit)="onSubmit()">
   <fieldset ngModelGroup="name">
-    <!-- <pre>{{f.form.controls.firstName?.dirty}}</pre> -->
+    <!-- <pre>{{firstName?.dirty}}</pre> -->
     <div class="form-group">
       <label>First Name</label>
       <input type="text" class="form-control" name="firstName" [(ngModel)]="user.firstName" required [ngClass]="{
-        'has-danger': f.form.controls.name?.controls.firstName?.invalid && (f.form.controls.name?.controls.firstName?.dirty || f.form.controls.name?.controls.firstName?.touched),
-        'has-success': f.form.controls.name?.controls.firstName?.valid && (f.form.controls.name?.controls.firstName?.dirty || f.form.controls.name?.controls.firstName?.touched)
-   }">
+        'has-danger': firstName.invalid && (firstName.dirty || firstName.touched),
+        'has-success': firstName.valid && (firstName.dirty || firstName.touched)
+   }"
+        #firstName="ngModel">
     </div>
-    <div *ngIf="f.form.controls.name?.controls.firstName?.errors && (f.form.controls.name?.controls.firstName?.dirty || f.form.controls.name?.controls.firstName?.touched)">
-      <p *ngIf="f.form.controls.name?.controls.firstName?.errors.required">First Name is required</p>
+    <div *ngIf="firstName.errors && (firstName.dirty || firstName.touched)">
+      <p *ngIf="firstName.errors.required" class="required">First Name is required!</p>
     </div>
+    <!-- <button (click)="fname(firstName.value)">fname</button> -->
 
     <div class="form-group">
       <label>Last Name</label>
       <input type="text" class="form-control" name="lastName" [(ngModel)]="user.lastName" required [ngClass]="{
-        'has-danger': f.form.controls.name?.controls.lastName?.invalid && (f.form.controls.name?.controls.lastName?.dirty || f.form.controls.name?.controls.lastName?.touched),
-        'has-success': f.form.controls.name?.controls.lastName?.valid && (f.form.controls.name?.controls.lastName?.dirty || f.form.controls.name?.controls.lastName?.touched)
-   }">
+        'has-danger': lastName.invalid && (lastName.dirty || lastName.touched),
+        'has-success': lastName.valid && (lastName.dirty || lastName.touched)
+   }"
+        #lastName="ngModel">
     </div>
-    <div *ngIf="f.form.controls.name?.controls.lastName?.errors && (f.form.controls.name?.controls.lastName?.dirty || f.form.controls.name?.controls.lastName?.touched)">
-      <p *ngIf="f.form.controls.name?.controls.lastName?.errors.required">Last Name is required</p>
+    <div *ngIf="lastName.errors && (lastName.dirty || lastName.touched)">
+      <p *ngIf="lastName.errors.required" class="required">Last Name is required!</p>
     </div>
   </fieldset>
+
+  <div class="form-group">
+    <label>Gender:</label>
+    <label class="radio-inline">
+      <input type="radio" name="gender" value="male" #gender="ngModel" required [(ngModel)]="user.gender">Male
+    </label>
+    <label class="radio-inline">
+      <input type="radio" name="gender" value="female" required #gender="ngModel" [(ngModel)]="user.gender">Female
+    </label>
+  </div>
+  <div *ngIf="gender.errors && (gender?.dirty || gender.touched)" class="required">
+    <p *ngIf="gender.errors.required">Gender is required!</p>
+  </div>
+
+  <div class="form-group">
+    <label>Hobbies:</label>
+    <div *ngFor="let hobbie of hobbiesArray; index as i" class="checkbox-inline">
+      <input type="checkbox" value="{{hobbie}}" required #hobbies="ngModel" [ngModel]="user.hobbies" name="hobbies">{{hobbie + i}}
+    </div>
+
+  </div>
+  <div *ngIf="hobbies?.invalid  && (hobbies?.dirty || hobbies?.touched)" class="required">
+    <p *ngIf="hobbies.errors.required">Hobbies are required!</p>
+  </div>
 
   <div class="form-group">
     <label>Email</label>
     <input type="email" class="form-control" name="email" [(ngModel)]="user.email" required pattern="[A-Za-z0-9_.]+@[A-Za-z0-9]+\.(com|org)"
       [ngClass]="{
-      'has-danger': f.form.controls.email?.invalid && (f.form.controls.email?.dirty || f.form.controls.email?.touched),
-      'has-success': f.form.controls.email?.valid && (f.form.controls.email?.dirty || f.form.controls.email?.touched)
- }">
+      'has-danger': email.invalid && (email.dirty || email.touched),
+      'has-success': email.valid && (email.dirty || email.touched)
+ }"
+      #email="ngModel">
   </div>
-  <div *ngIf="f.form.controls.email?.errors && (f.form.controls.email?.dirty || f.form.controls.email?.touched)">
-    <p *ngIf="f.form.controls.email?.errors.required">Email is required</p>
-    <p *ngIf="f.form.controls.email?.errors.pattern">Email must contain at least the @ character</p>
+  <div *ngIf="email.errors && (email.dirty || email.touched)" class="required">
+    <p *ngIf="email.errors.required">Email is required!</p>
+    <p *ngIf="email.errors.pattern">Email must contain at least the @ character</p>
   </div>
 
   <div class="form-group">
     <label>Password</label>
     <input type="password" class="form-control" name="password" [(ngModel)]="user.password" required minlength="8"
       [ngClass]="{
-      'has-danger': f.form.controls.password?.invalid && (f.form.controls.password?.dirty || f.form.controls.password?.touched),
-      'has-success': f.form.controls.password?.valid && (f.form.controls.password?.dirty || f.form.controls.name.controls.password?.touched)
- }">
+      'has-danger': password.invalid && (password.dirty || password.touched),
+      'has-success': password.valid && (password.dirty || password.touched)
+ }"
+      #password="ngModel">
   </div>
-  <div *ngIf="f.form.controls.password?.errors && (f.form.controls.password?.dirty || f.form.controls.password?.touched)">
-    <p *ngIf="f.form.controls.password?.errors.required">Password is required</p>
-    <p *ngIf="f.form.controls.password?.errors.minlength">password must contain at least the 8 characters</p>
+  <div *ngIf="password.errors && (password.dirty || password.touched)" class="required">
+    <p *ngIf="password.errors.required">Password is required!</p>
+    <p *ngIf="password.errors.minlength">password must contain at least the 8 characters</p>
   </div>
 
   <div class="form-group">
     <label>Language</label>
     <select class="form-control" name="language" [(ngModel)]="user.language" required [ngClass]="{
-      'has-danger': f.form.controls.language?.invalid && (f.form.controls.language?.dirty || f.form.controls.language?.touched),
-      'has-success': f.form.controls.language?.valid && (f.form.controls.language?.dirty || f.form.controls.language?.touched)
- }">
+      'has-danger': language.invalid && (language.dirty || language.touched),
+      'has-success': language.valid && (language.dirty || language.touched)
+ }"
+      #language="ngModel">
       <option *ngFor="let lang of languages" [value]="lang">
         {{lang}}
       </option>
     </select>
   </div>
-  <div *ngIf="f.form.controls.language?.errors && (f.form.controls.language?.dirty || f.form.controls.language?.touched)">
-    <p *ngIf="f.form.controls.language?.errors.required">language is required</p>
+  <div *ngIf="language.errors && (language.dirty || language.touched)">
+    <p *ngIf="language.errors.required" class="required">language is required!</p>
+  </div>
+
+  <div class="form-group">
+    <label>Contact No: </label>
+    <input type="text" class="form-control" name="no" required minlength="10" pattern="[1-9]+" [ngClass]="{
+      'has-danger': mobileNo.invalid && (mobileNo.dirty || mobileNo.touched),
+      'has-success': mobileNo.valid && (mobileNo.dirty || mobileNo.touched)
+    }"
+      #mobileNo="ngModel" [(ngModel)]="user.mobileNo">
+  </div>
+  <div *ngIf="mobileNo.errors && (mobileNo.dirty || mobileNo.touched)">
+    <div *ngIf="mobileNo.errors.required" class="required">
+      Contact Number is required!
+    </div>
+    <div *ngIf="mobileNo.errors.minlength" class="required">
+      Min. 10 is required!
+    </div>
   </div>
   <input type="submit" value="Submit" class="btn btn-default">
 </form>
-<!-- <pre>Dirty?{{f.form.controls.name.controls.firstName?.dirty}}</pre>
-<pre>Valid? {{f.form.controls.firstName?.valid}}</pre>
-<pre>Dirty? {{f.form.controls.email?.dirty}}</pre>
-<pre>Touched? {{f.form.controls.email?.touched}}</pre> -->
-<!-- <pre>{{f.value | json}}</pre> -->
+<!-- <pre>Dirty?{{firstName.dirty}}</pre>
+<pre>Valid? {{firstName.valid}}</pre>
+<pre>Dirty? {{email.dirty}}</pre>
+<pre>Touched? {{email.touched}}</pre>
+<pre>{{f.value | json}}</pre> -->

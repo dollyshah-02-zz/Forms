@@ -5,6 +5,9 @@ export class User {
     lastName:string;
     email:string;
     password:string;
-    language:string
-    age:string
+    language:string[];
+    age:string;
+    gender:string;
+    hobbies:string[];
+    mobileNo:number
 }
