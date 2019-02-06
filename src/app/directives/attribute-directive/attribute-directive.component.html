@@ -1,0 +1,12 @@
+<h2 class="main">Employee List</h2>
+<div class="emp-list">
+  <div class="emp-list-item" *ngFor="let emp of employees">
+    <input type="radio" name="emp" [(ngModel)]="empId" (click)="getId(emp.id,emp.img)" [value]="emp.id">{{emp.name}}
+  </div>
+</div>
+<div class="image-div">
+  <img class="emp-image" appEmployeePhoto [empId]="empId" [empImg]="image" [empArray]="employees" />
+</div>
+<div *ngFor="let emp of employees; index as i">
+  <button class="btn btn-default emp-list-item" (click)="getId(emp.id,emp.img)">{{emp.name}}</button>
+</div>
